@@ -45,9 +45,9 @@ public class Teleportation : MonoBehaviour
     {
         //ターゲットポインタの位置を代入
         movePos = targetPointer.transform.position;
-        //Playerが地面に食い込まないように整形
+        //Playerが地面に食い込まないように調整
         movePos.y = 1;
-        //Playerを整形した位置へ移動
+        //Playerを調整した位置へ移動
         ownPlayer.transform.position = movePos;
         //ターゲットポインタを隠す
         targetPointer.SetActive(false);
