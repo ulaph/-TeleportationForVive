@@ -53,7 +53,7 @@ public class Parabola : MonoBehaviour
         var h = transform.position.y;
         //初速
         var v0 = initialVelocity;
-        //V0の正弦，余弦成分
+        //v0の正弦，余弦成分
         var sin = Mathf.Sin(angleFacing);
         var cos = Mathf.Cos(angleFacing);
         //重力加速度
@@ -77,7 +77,7 @@ public class Parabola : MonoBehaviour
         }
         //LineRendererの頂点数
         lineRenderer.SetVertexCount(pointList.Count);
-        //ターゲットポインターをポイントの最終地点に設置
+        //ターゲットポインタをポイントの最終地点に設置
         targetPointer.transform.position = pointList.Last();
         //LineRendererに設置
         lineRenderer.SetPositions(pointList.ToArray());

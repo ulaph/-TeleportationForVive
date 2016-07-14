@@ -19,7 +19,7 @@ public class Teleportation : MonoBehaviour
     {
         //任意のViveコントローラーから取得
         trackedObj = GetComponent<SteamVR_TrackedObject>();
-        //ターゲットポインターを隠す
+        //ターゲットポインタを隠す
         targetPointer.SetActive(false);
         //デバイスの入力受け付け
         var device = SteamVR_Controller.Input((int)trackedObj.index);
@@ -43,13 +43,13 @@ public class Teleportation : MonoBehaviour
     /// </summary>
     void moveToPoint()
     {
-        //ターゲットポインターの位置を代入
+        //ターゲットポインタの位置を代入
         movePos = targetPointer.transform.position;
         //Playerが地面に食い込まないように整形
         movePos.y = 1;
         //Playerを整形した位置へ移動
         ownPlayer.transform.position = movePos;
-        //ターゲットポインターを隠す
+        //ターゲットポインタを隠す
         targetPointer.SetActive(false);
     }
 }
