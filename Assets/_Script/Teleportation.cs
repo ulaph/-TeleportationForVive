@@ -17,39 +17,34 @@ public class Teleportation : MonoBehaviour
 
     void Start()
     {
+        targetPointer.SetActive(false);
         //任意のViveコントローラーから取得
         trackedObj = GetComponent<SteamVR_TrackedObject>();
-        //ターゲットポインタを隠す
-        targetPointer.SetActive(false);
         //デバイスの入力受け付け
         var device = SteamVR_Controller.Input((int)trackedObj.index);
 
         //Updateとして購読
         this.UpdateAsObservable()
-        //コントローラーのトリガーを押している間発火
+        //コントローラーのトリガーを押している間イベントを発火
             .Where(_ => device.GetTouch(SteamVR_Controller.ButtonMask.Trigger))
-        //ターゲットポインタを表示
             .Subscribe(_ => targetPointer.SetActive(true));
 
         this.UpdateAsObservable()
-        //コントローラーのトリガーを離した時発火
+        //コントローラーのトリガーを離した時イベントを発火
             .Where(_ => device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
         //ターゲットポインタの位置へ移動
             .Subscribe(_ => moveToPoint());
     }
 
     /// <summary>
-    /// ポイントへ移動
+    /// 移動先の位置を調整して移動
     /// </summary>
     void moveToPoint()
     {
-        //ターゲットポインタの位置を代入
         movePos = targetPointer.transform.position;
-        //Playerが地面に食い込まないように調整
+        //カメラが地面にめり込まないように
         movePos.y = 1;
-        //Playerを調整した位置へ移動
         ownPlayer.transform.position = movePos;
-        //ターゲットポインタを隠す
         targetPointer.SetActive(false);
     }
 }
