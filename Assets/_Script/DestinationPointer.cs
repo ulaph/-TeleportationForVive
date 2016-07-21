@@ -25,7 +25,7 @@ public class DestinationPointer : MonoBehaviour
     {
         //コントローラの入力の後に読みたい
         this.LateUpdateAsObservable()
-            .Where(_ => targetMarker.activeSelf) //ターゲットマーカーが表示されている時イベントを発火
+            .Where(_ => targetMarker.activeSelf) //ターゲットマーカーが表示されているとき
             .Subscribe(_ =>                      //放物線を表示させる
             {
                 lineRenderer.enabled = true;
@@ -34,7 +34,7 @@ public class DestinationPointer : MonoBehaviour
 
 
         this.LateUpdateAsObservable()
-            .Where(_ => !targetMarker.activeSelf)          //ターゲットマーカーが非表示の時イベントを発火
+            .Where(_ => !targetMarker.activeSelf)          //ターゲットマーカーが非表示のとき
             .Subscribe(_ => lineRenderer.enabled = false); //放物線を非表示にする
     }
 
@@ -50,8 +50,9 @@ public class DestinationPointer : MonoBehaviour
         var sin = Mathf.Sin(angleFacing);
         var cos = Mathf.Cos(angleFacing);
         var g = Gravity;
-        //地面に到達する時間
-        //t = (v0 * sinθ) / g + √ (v0^2 * sinθ^2) / g^2 + 2 * h / g
+
+        //地面に到達する時間の式 :
+        //  t = (v0 * sinθ) / g + √ (v0^2 * sinθ^2) / g^2 + 2 * h / g
         var arrivalTime = (v0 * sin) / g + Mathf.Sqrt((square(v0) * square(sin)) / square(g) + (2F * h) / g);
 
         for (var i = 0; i < vertexCount; i++)
