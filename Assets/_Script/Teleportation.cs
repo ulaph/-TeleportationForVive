@@ -13,7 +13,6 @@ public class Teleportation : MonoBehaviour
     [SerializeField] GameObject ownPlayer;
     [SerializeField] GameObject targetPointer;
     SteamVR_TrackedObject trackedObj;
-    Vector3 movePos;
 
     void Start()
     {
@@ -41,8 +40,7 @@ public class Teleportation : MonoBehaviour
     /// </summary>
     void moveToPoint()
     {
-        movePos = targetPointer.transform.position;
-        ownPlayer.transform.position = movePos;
+        ownPlayer.transform.position = targetPointer.transform.position;
         targetPointer.SetActive(false);
     }
 }
