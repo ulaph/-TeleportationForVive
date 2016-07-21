@@ -16,7 +16,7 @@ public class DestinationPointer : MonoBehaviour
 
     [SerializeField] GameObject targetPointer;
     [SerializeField] LineRenderer lineRenderer;
-    [SerializeField] float linePointInterval = 25;
+    [SerializeField] float deltaLinePoint = 25;
     [SerializeField] float initialVelocity = 1;
     List<Vector3> pointList = new List<Vector3>();
     float gravity = 9.81F;
@@ -55,13 +55,14 @@ public class DestinationPointer : MonoBehaviour
         var cos = Mathf.Cos(angleFacing);
         var g = gravity;
         //地面に到達する時間
+        //t = (v0 * sinθ) / g + √ (v0^2 * sinθ^2) / g^2 + 2 * h / g
         var arrivalTime = (v0 * sin) / g + Mathf.Sqrt((square(v0) * square(sin)) / square(g) + (2F * h) / g);
 
-        for (var i = 0; i < linePointInterval; i++)
+        for (var i = 0; i < deltaLinePoint; i++)
         {
             //delta時間あたりのワールド座標(ラインレンダラーの節)
-            var delta = i * arrivalTime / linePointInterval;
-            //x座標
+            var delta = i * arrivalTime / deltaLinePoint;
+            //x座標　
             var x = v0 * cos * delta;
             //y座標
             var y = v0 * sin * delta - 0.5F * g * square(delta);
