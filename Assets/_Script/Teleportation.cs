@@ -42,8 +42,6 @@ public class Teleportation : MonoBehaviour
     void moveToPoint()
     {
         movePos = targetPointer.transform.position;
-        //カメラが地面にめり込まないように
-        //movePos.y = 1;
         ownPlayer.transform.position = movePos;
         targetPointer.SetActive(false);
     }
