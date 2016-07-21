@@ -25,7 +25,7 @@ public class DestinationPointer : MonoBehaviour
     {
         //コントローラの入力の後に読みたい
         this.LateUpdateAsObservable()
-            .Where(_ => targetMarker.activeSelf) //ターゲットポインタが表示されている時イベントを発火
+            .Where(_ => targetMarker.activeSelf) //ターゲットマーカーが表示されている時イベントを発火
             .Subscribe(_ => //放物線を表示させる
             {
                 lineRenderer.enabled = true;
@@ -34,7 +34,7 @@ public class DestinationPointer : MonoBehaviour
 
 
         this.LateUpdateAsObservable()
-            .Where(_ => !targetMarker.activeSelf) //ターゲットポインタが非表示の時イベントを発火
+            .Where(_ => !targetMarker.activeSelf) //ターゲットマーカーが非表示の時イベントを発火
             .Subscribe(_ => lineRenderer.enabled = false); //放物線を非表示にする
     }
 
@@ -62,13 +62,13 @@ public class DestinationPointer : MonoBehaviour
             var y = v0 * sin * delta - 0.5F * g * square(delta);
             //コントローラのx,z平面のベクトル
             var forward = new Vector3(transform.forward.x, 0, transform.forward.z);
-            var point = transform.position + forward * x + Vector3.up * y;
+            var vertex = transform.position + forward * x + Vector3.up * y;
             //Listにpointの座標を追加
-            vertexs.Add(point);
+            vertexs.Add(vertex);
         }
         //LineRendererの頂点数
         lineRenderer.SetVertexCount(vertexs.Count);
-        //ターゲットポインタをポイントの最終地点に設置
+        //ターゲットマーカーを頂点の最終地点に設置
         targetMarker.transform.position = vertexs.Last();
         //LineRendererのPointsに設置
         lineRenderer.SetPositions(vertexs.ToArray());
