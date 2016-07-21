@@ -11,12 +11,12 @@ public class Teleportation : MonoBehaviour
 {
 
     [SerializeField] GameObject ownPlayer;
-    [SerializeField] GameObject targetPointer;
+    [SerializeField] GameObject targetMarker;
     SteamVR_TrackedObject trackedObj;
 
     void Start()
     {
-        targetPointer.SetActive(false);
+        targetMarker.SetActive(false);
         //任意のViveコントローラーから取得
         trackedObj = GetComponent<SteamVR_TrackedObject>();
         //デバイスの入力受け付け
@@ -24,15 +24,12 @@ public class Teleportation : MonoBehaviour
 
         //Updateとして購読
         this.UpdateAsObservable()
-        //コントローラーのトリガーを押している間イベントを発火
-            .Where(_ => device.GetTouch(SteamVR_Controller.ButtonMask.Trigger))
-            .Subscribe(_ => targetPointer.SetActive(true));
+            .Where(_ => device.GetTouch(SteamVR_Controller.ButtonMask.Trigger)) //コントローラーのトリガーを押している間イベントを発火
+            .Subscribe(_ => targetMarker.SetActive(true));
 
         this.UpdateAsObservable()
-        //コントローラーのトリガーを離した時イベントを発火
-            .Where(_ => device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
-        //ターゲットポインタの位置へ移動
-            .Subscribe(_ => moveToPoint());
+            .Where(_ => device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger)) //コントローラーのトリガーを離した時イベントを発火
+            .Subscribe(_ => moveToPoint()); //ターゲットマーカーの位置へ移動
     }
 
     /// <summary>
@@ -40,7 +37,7 @@ public class Teleportation : MonoBehaviour
     /// </summary>
     void moveToPoint()
     {
-        ownPlayer.transform.position = targetPointer.transform.position;
-        targetPointer.SetActive(false);
+        ownPlayer.transform.position = targetMarker.transform.position;
+        targetMarker.SetActive(false);
     }
 }

@@ -25,10 +25,8 @@ public class DestinationPointer : MonoBehaviour
     {
         //コントローラの入力の後に読みたい
         this.LateUpdateAsObservable()
-        //ターゲットポインタが表示されている時イベントを発火
-            .Where(_ => targetMarker.activeSelf)
-        //放物線を表示させる
-            .Subscribe(_ =>
+            .Where(_ => targetMarker.activeSelf) //ターゲットポインタが表示されている時イベントを発火
+            .Subscribe(_ => //放物線を表示させる
             {
                 lineRenderer.enabled = true;
                 setOrbitState();
@@ -36,10 +34,8 @@ public class DestinationPointer : MonoBehaviour
 
 
         this.LateUpdateAsObservable()
-        //ターゲットポインタが非表示の時イベントを発火
-            .Where(_ => !targetMarker.activeSelf)
-        //放物線を非表示にする
-            .Subscribe(_ => lineRenderer.enabled = false);
+            .Where(_ => !targetMarker.activeSelf) //ターゲットポインタが非表示の時イベントを発火
+            .Subscribe(_ => lineRenderer.enabled = false); //放物線を非表示にする
     }
 
     /// <summary>
@@ -58,26 +54,26 @@ public class DestinationPointer : MonoBehaviour
         //t = (v0 * sinθ) / g + √ (v0^2 * sinθ^2) / g^2 + 2 * h / g
         var arrivalTime = (v0 * sin) / g + Mathf.Sqrt((square(v0) * square(sin)) / square(g) + (2F * h) / g);
 
-        for (var i = 0; i < deltaLinePoint; i++)
+        for (var i = 0; i < vertexCount; i++)
         {
             //delta時間あたりのワールド座標(ラインレンダラーの節)
-            var delta = i * arrivalTime / deltaLinePoint;
+            var delta = i * arrivalTime / vertexCount;
             var x = v0 * cos * delta;
             var y = v0 * sin * delta - 0.5F * g * square(delta);
             //コントローラのx,z平面のベクトル
             var forward = new Vector3(transform.forward.x, 0, transform.forward.z);
             var point = transform.position + forward * x + Vector3.up * y;
             //Listにpointの座標を追加
-            pointList.Add(point);
+            vertexs.Add(point);
         }
         //LineRendererの頂点数
-        lineRenderer.SetVertexCount(pointList.Count);
+        lineRenderer.SetVertexCount(vertexs.Count);
         //ターゲットポインタをポイントの最終地点に設置
-        targetMarker.transform.position = pointList.Last();
+        targetMarker.transform.position = vertexs.Last();
         //LineRendererのPointsに設置
-        lineRenderer.SetPositions(pointList.ToArray());
+        lineRenderer.SetPositions(vertexs.ToArray());
         //リストの初期化
-        pointList.Clear();
+        vertexs.Clear();
     }
 
     /// <summary>
