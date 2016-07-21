@@ -60,17 +60,13 @@ public class DestinationPointer : MonoBehaviour
             var delta = i * arrivalTime / vertexCount;
             var x = v0 * cos * delta;
             var y = v0 * sin * delta - 0.5F * g * square(delta);
-            //コントローラのx,z平面のベクトル
             var forward = new Vector3(transform.forward.x, 0, transform.forward.z);
             var vertex = transform.position + forward * x + Vector3.up * y;
-            //Listにpointの座標を追加
             vertexs.Add(vertex);
         }
-        //LineRendererの頂点数
+        //LineRendererの頂点の設置
         lineRenderer.SetVertexCount(vertexs.Count);
-        //ターゲットマーカーを頂点の最終地点に設置
         targetMarker.transform.position = vertexs.Last();
-        //LineRendererのPointsに設置
         lineRenderer.SetPositions(vertexs.ToArray());
         //リストの初期化
         vertexs.Clear();
