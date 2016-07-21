@@ -64,9 +64,10 @@ public class DestinationPointer : MonoBehaviour
             var vertex = transform.position + forward * x + Vector3.up * y;
             vertexs.Add(vertex);
         }
+        //ターゲットマーカーを頂点の最終地点へ
+        targetMarker.transform.position = vertexs.Last();
         //LineRendererの頂点の設置
         lineRenderer.SetVertexCount(vertexs.Count);
-        targetMarker.transform.position = vertexs.Last();
         lineRenderer.SetPositions(vertexs.ToArray());
         //リストの初期化
         vertexs.Clear();
