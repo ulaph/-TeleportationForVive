@@ -26,7 +26,7 @@ public class DestinationPointer : MonoBehaviour
         //コントローラの入力の後に読みたい
         this.LateUpdateAsObservable()
             .Where(_ => targetMarker.activeSelf) //ターゲットマーカーが表示されている時イベントを発火
-            .Subscribe(_ => //放物線を表示させる
+            .Subscribe(_ =>                      //放物線を表示させる
             {
                 lineRenderer.enabled = true;
                 setOrbitState();
@@ -34,7 +34,7 @@ public class DestinationPointer : MonoBehaviour
 
 
         this.LateUpdateAsObservable()
-            .Where(_ => !targetMarker.activeSelf) //ターゲットマーカーが非表示の時イベントを発火
+            .Where(_ => !targetMarker.activeSelf)          //ターゲットマーカーが非表示の時イベントを発火
             .Subscribe(_ => lineRenderer.enabled = false); //放物線を非表示にする
     }
 

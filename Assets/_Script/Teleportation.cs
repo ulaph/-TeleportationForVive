@@ -29,7 +29,7 @@ public class Teleportation : MonoBehaviour
 
         this.UpdateAsObservable()
             .Where(_ => device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger)) //コントローラーのトリガーを離した時イベントを発火
-            .Subscribe(_ => moveToPoint()); //ターゲットマーカーの位置へ移動
+            .Subscribe(_ => moveToPoint());                                       //ターゲットマーカーの位置へ移動
     }
 
     /// <summary>
