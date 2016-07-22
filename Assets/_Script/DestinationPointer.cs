@@ -18,7 +18,7 @@ public class DestinationPointer : MonoBehaviour
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] float vertexCount = 25;
     [SerializeField] float initialVelocity = 1;
-    List<Vector3> vertexs = new List<Vector3>();
+    List<Vector3> vertexes = new List<Vector3>();
     static readonly float Gravity = 9.81F;
 
     void Start()
@@ -28,8 +28,7 @@ public class DestinationPointer : MonoBehaviour
             .Where(_ => targetMarker.activeSelf) //ターゲットマーカーが表示されているとき
             .Subscribe(_ =>                      //放物線を表示させる
             {
-                lineRenderer.enabled = true;
-                setOrbitState();
+                showOrbit();
             });
 
 
@@ -41,8 +40,9 @@ public class DestinationPointer : MonoBehaviour
     /// <summary>
     /// 放物線を表示する関数
     /// </summary>
-    void setOrbitState()
+    void showOrbit()
     {
+        lineRenderer.enabled = true;
         //コントローラの向いている角度(x軸回転)をラジアン角へ
         var angleFacing = -Mathf.Deg2Rad * transform.eulerAngles.x;
         var h = transform.position.y;
@@ -63,15 +63,15 @@ public class DestinationPointer : MonoBehaviour
             var y = v0 * sin * delta - 0.5F * g * square(delta);
             var forward = new Vector3(transform.forward.x, 0, transform.forward.z);
             var vertex = transform.position + forward * x + Vector3.up * y;
-            vertexs.Add(vertex);
+            vertexes.Add(vertex);
         }
         //ターゲットマーカーを頂点の最終地点へ
-        targetMarker.transform.position = vertexs.Last();
+        targetMarker.transform.position = vertexes.Last();
         //LineRendererの頂点の設置
-        lineRenderer.SetVertexCount(vertexs.Count);
-        lineRenderer.SetPositions(vertexs.ToArray());
+        lineRenderer.SetVertexCount(vertexes.Count);
+        lineRenderer.SetPositions(vertexes.ToArray());
         //リストの初期化
-        vertexs.Clear();
+        vertexes.Clear();
     }
 
     /// <summary>
